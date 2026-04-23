@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Decoded — Eternal Sunshine of the Spotless Mind</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+/* -------- decoded-specific -------- */
+.essay-hero {
+  padding: 5rem 2rem 3rem;
+  position: relative;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.essay-kicker {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--red-menace);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.essay-kicker::before, .essay-kicker::after {
+  content: '';
+  height: 1px;
+  background: var(--red-menace);
+  flex: 0 0 30px;
+}
+.essay-title {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 144, 'SOFT' 30;
+  font-weight: 400;
+  font-size: clamp(3rem, 9vw, 7.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+.essay-title em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--red-menace);
+}
+.essay-deck {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 2vw, 1.55rem);
+  line-height: 1.45;
+  color: var(--ink-soft);
+  max-width: 700px;
+}
+.essay-byline {
+  margin-top: 2.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-whisper);
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--ink);
+  padding-top: 1rem;
+}
+.essay-byline span strong { color: var(--ink); display: block; font-family: 'Fraunces', serif; font-weight: 400; font-size: 0.95rem; letter-spacing: 0; text-transform: none; }
+
+/* essay body */
+.essay {
+  max-width: 720px;
+  margin: 4rem auto 0;
+  padding: 0 2rem;
+}
+.essay section { margin-bottom: 5rem; position: relative; }
+.essay .chapter-num {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 5rem;
+  line-height: 1;
+  color: var(--red-menace);
+  opacity: 0.85;
+  margin-bottom: 0.3rem;
+}
+.essay h2 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  margin-bottom: 1.8rem;
+  line-height: 1.05;
+}
+.essay h2 em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+}
+.essay p {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 14;
+  font-size: 1.1rem;
+  line-height: 1.65;
+  color: var(--ink);
+  margin-bottom: 1.3rem;
+}
+.essay p.lead {
+  font-size: 1.3rem;
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+.essay p:first-of-type::first-letter {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 5rem;
+  float: left;
+  line-height: 0.8;
+  padding: 0.5rem 0.6rem 0 0;
+  color: var(--red-menace);
+}
+.essay em { font-family: 'Instrument Serif', serif; }
+.essay strong { font-weight: 600; color: var(--ink); }
+
+/* pullquote */
+.pullquote {
+  margin: 3rem -3rem;
+  padding: 2rem 0;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 144, 'SOFT' 30;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+  line-height: 1.2;
+  text-align: center;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+.pullquote::before {
+  content: '❝';
+  display: block;
+  font-size: 3rem;
+  color: var(--red-menace);
+  line-height: 0.5;
+  margin-bottom: 1rem;
+}
+@media (max-width: 760px) { .pullquote { margin: 2rem 0; } }
+
+/* margin note */
+.margin-note {
+  background: var(--lacuna-tape);
+  padding: 1.2rem 1.5rem;
+  border-left: 3px solid var(--red-menace);
+  font-family: 'Caveat', cursive;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  color: var(--ink);
+  margin: 1.5rem 0;
+}
+.margin-note::before {
+  content: 'Margin Note';
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--red-menace);
+  margin-bottom: 0.4rem;
+}
+
+/* character list */
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+  margin: 2rem 0 1.5rem;
+}
+@media (max-width: 600px) { .character-grid { grid-template-columns: 1fr; } }
+.character-card {
+  border: 1px solid var(--ink);
+  padding: 1rem 1.2rem;
+  background: var(--paper);
+}
+.character-card h4 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  margin-bottom: 0.15rem;
+}
+.character-card .actor {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-whisper);
+  margin-bottom: 0.6rem;
+}
+.character-card p {
+  font-size: 0.92rem;
+  margin: 0;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+.character-card p::first-letter { font-size: inherit; float: none; padding: 0; font-family: inherit; font-style: inherit; line-height: inherit; color: inherit; }
+
+/* chapter color ribbon */
+.chapter-ribbon {
+  display: inline-block;
+  padding: 2px 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--paper);
+  margin-bottom: 1rem;
+}
+.ribbon-green { background: var(--green-revolution); }
+.ribbon-red { background: var(--red-menace); }
+.ribbon-orange { background: var(--agent-orange); }
+.ribbon-blue { background: var(--blessed-blue); }
+.ribbon-ink { background: var(--ink); }
+</style>
+</head>
+<body>
+
+<nav class="lacuna-nav">
+  <a href="index.html" class="nav-brand">
+    Lacuna<span class="ampersand">,</span> Inc.
+    <span class="stamp">Case №. 10481</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="decoded.html" class="active">Decoded</a></li>
+    <li><a href="quotes.html">Quotes</a></li>
+    <li><a href="hair.html">Hair</a></li>
+  </ul>
+</nav>
+
+<header class="essay-hero">
+  <div class="essay-kicker">Folder 01 · The Film, Decoded</div>
+  <h1 class="essay-title">A love story<br>told <em>backwards</em>, then<br>forwards, then<br>again.</h1>
+  <p class="essay-deck">Michel Gondry and Charlie Kaufman's 2004 film is the rare movie that gets more romantic the more closely you watch it collapse. Here is the entire thing, unpacked.</p>
+  <div class="essay-byline">
+    <span>Reading time<br><strong>~ 14 minutes</strong></span>
+    <span>Subject<br><strong>Joel Barish · Clementine Kruczynski</strong></span>
+    <span>Procedure<br><strong>Lacuna, Inc.</strong></span>
+    <span>Verdict<br><strong>Okay. Okay.</strong></span>
+  </div>
+</header>
+
+<article class="essay">
+
+  <!-- Chapter 1 -->
+  <section>
+    <div class="chapter-num">I.</div>
+    <span class="chapter-ribbon ribbon-blue">The Opening</span>
+    <h2>A man wakes up and decides, without knowing why, to skip work and ride the train to <em>Montauk.</em></h2>
+    <p class="lead">It is Valentine's Day, 2004. He has no reason to be there. The beach is empty and the sky is the colour of wet newsprint. Then a woman in an orange hoodie with blue hair walks into the frame, and everything that follows is either the beginning of their love story or the end of it.</p>
+    <p>Both, actually. That's the whole trick.</p>
+    <p>We open on Joel Barish — a quiet, mousy, heartbreakingly ordinary man played by Jim Carrey at his most de-clowned — writing in a journal he will later find has pages torn out. He meets Clementine Kruczynski on the Montauk train. She is loud, magnetic, chemically blue, and somehow already familiar. They exchange numbers. They drive onto a frozen river. They fall in love, quickly, the way people do in films and occasionally in life.</p>
+    <p>And then, forty-odd minutes in, the film reveals that this is not the start of anything. It is a <em>re-start</em>. Joel and Clementine have done this before. They have dated, lived together, fought, broken up. And when Joel discovered that Clementine had paid a small Manhattan clinic called Lacuna, Inc. to erase him from her memory, he walked into the same clinic and asked them to do the same to her.</p>
+    <p>The Montauk we opened on is the morning after. His brain has been scooped clean the night before. He does not know who she is. She does not know who he is. They are meeting for the second first time.</p>
+
+    <div class="margin-note">
+      "I always thought this script was a comedy," Kaufman has said. Watch it once — it is. Watch it twice — it isn't.
+    </div>
+  </section>
+
+  <!-- Chapter 2 -->
+  <section>
+    <div class="chapter-num">II.</div>
+    <span class="chapter-ribbon ribbon-ink">The Structure</span>
+    <h2>The film moves backwards — but only inside one head.</h2>
+    <p>Most of <em>Eternal Sunshine</em> takes place inside Joel's skull during the erasure procedure itself. He is unconscious in his bed while two technicians sit in his living room, eating Chinese food, drinking his liquor, and watching a computer map his memories of Clementine and delete them one by one. Each memory is represented as a little blip on a screen. When the blip is zapped, the memory dissolves.</p>
+    <p>The procedure works chronologically in reverse. Lacuna erases the most recent memories first — the ugly ones, the fights, the contempt — and moves backwards toward the older, sweeter memories. This is the structural engine of the film. We are watching Joel's relationship with Clementine unspool in the opposite direction from how he lived it.</p>
+    <p>And then, somewhere around the middle, Joel realises what is happening. He is inside a memory of Clementine and he loves her, suddenly, completely, again. He tries to stop the procedure. He cannot — his waking body is inert on a bed — so he does the only thing he can. He tries to <em>hide</em> her. He drags her out of the memories Lacuna is hunting and into older memories she doesn't belong in. Childhood memories. Memories of humiliation. Places the map has no pins for.</p>
+
+    <div class="pullquote">
+      Please let me keep this memory.<br>Just this one.
+    </div>
+
+    <p>It doesn't work. Lacuna's map is thorough. But the chase is the whole second act, and it gives the film its strange, aching physics: every time Joel nearly catches up to Clementine, the world around them starts to literally fall apart. Beach houses collapse. Bookstore shelves empty. Names disappear from spines. The sand erases their footprints as they walk.</p>
+  </section>
+
+  <!-- Chapter 3 -->
+  <section>
+    <div class="chapter-num">III.</div>
+    <span class="chapter-ribbon ribbon-red">The People</span>
+    <h2>Five humans, one very small office.</h2>
+    <p>The cast is tiny for a film this ambitious. Kaufman wrote a chamber piece and Gondry shot it that way.</p>
+
+    <div class="character-grid">
+      <div class="character-card">
+        <h4>Joel Barish</h4>
+        <div class="actor">Jim Carrey</div>
+        <p>A lonely introvert who journals obsessively and can't sustain eye contact. Carrey plays him almost entirely in a whisper. One of the great restrained performances of the 2000s.</p>
+      </div>
+      <div class="character-card">
+        <h4>Clementine Kruczynski</h4>
+        <div class="actor">Kate Winslet</div>
+        <p>Impulsive, loud, self-aware, a bookseller at Barnes &amp; Noble. Famously not a Manic Pixie Dream Girl — she tells Joel, plainly, that she isn't.</p>
+      </div>
+      <div class="character-card">
+        <h4>Mary Svevo</h4>
+        <div class="actor">Kirsten Dunst</div>
+        <p>Lacuna's receptionist. In love with her boss. Quotes Nietzsche and Pope from memory. Holds the film's moral reveal.</p>
+      </div>
+      <div class="character-card">
+        <h4>Stan Fink</h4>
+        <div class="actor">Mark Ruffalo</div>
+        <p>Lacuna technician. Dances on Joel's bed in his underwear. Mary's boyfriend, probably not for long.</p>
+      </div>
+      <div class="character-card">
+        <h4>Patrick Wertz</h4>
+        <div class="actor">Elijah Wood</div>
+        <p>The other technician. Stole a lock of Clementine's hair and now uses Joel's erased letters to seduce her. Quietly the film's villain.</p>
+      </div>
+      <div class="character-card">
+        <h4>Dr. Howard Mierzwiak</h4>
+        <div class="actor">Tom Wilkinson</div>
+        <p>Lacuna's founder. Warm, paternal, genuinely believes he is helping people. Has his own very large secret.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapter 4 -->
+  <section>
+    <div class="chapter-num">IV.</div>
+    <span class="chapter-ribbon ribbon-orange">The Procedure</span>
+    <h2>How Lacuna, Inc. <em>actually</em> erases a person.</h2>
+    <p>The pseudo-science is handled with exactly as much rigor as the film needs and not one inch more. A client brings in every object associated with the person they want to forget — letters, photographs, gifts, a stuffed horse, a tube of toothpaste — and sits in the clinic while a bulky headset maps which brain regions light up in response to each item. This is how the Lacuna map is built.</p>
+    <p>The actual erasure happens overnight, at home, with the client unconscious. The technicians come to your apartment with laptops and a portable rig. You are given a sedative. In the morning the person is gone — from your mind, from your address book, from your friends' mouths (Lacuna also sends a letter asking everyone you know not to bring them up again).</p>
+    <p>The clinic's slogan is <em>"Why remember a destructive love affair?"</em> It is a wonderful premise for a film because it is exactly the kind of thing a grieving person would, in a dark moment, pay real money for.</p>
+
+    <div class="margin-note">
+      Kaufman's original draft was set entirely from Mary's point of view, framed as a consumer-protection investigation into Lacuna. Gondry convinced him to move the camera into Joel's head.
+    </div>
+  </section>
+
+  <!-- Chapter 5 -->
+  <section>
+    <div class="chapter-num">V.</div>
+    <span class="chapter-ribbon ribbon-green">The Effects</span>
+    <h2>Almost none of this was done with a computer.</h2>
+    <p>Gondry came up through music videos — Björk, Daft Punk, The White Stripes — and he approached <em>Eternal Sunshine</em> with a music-video director's devotion to in-camera trickery. When the crowd on the beach disappears around Joel, the extras were actually running out of frame. When faces blur in a memory, that is a physical effect done with doubles, not a filter applied in post.</p>
+    <p>The famous shot where the book titles vanish off the shelves of a bookstore: real books with the covers replaced by blank jackets, swapped while the camera was pointed elsewhere. The collapsing beach house: a set built to collapse. The giant Clementine and tiny Joel under the kitchen table: forced perspective with a child's play-kitchen. Gondry even dragged Jim Carrey out onto a real frozen Hudson in the middle of the night rather than fake the ice.</p>
+    <p>The effect of this commitment — and it is the reason the film has aged better than any of its contemporaries — is that the memory world feels <strong>tactile</strong>. It wobbles. It smells of snow. It is not the clean, frictionless unreality of a green screen; it is the unreality of an actual brain trying to hold itself together while someone deletes it.</p>
+  </section>
+
+  <!-- Chapter 6 -->
+  <section>
+    <div class="chapter-num">VI.</div>
+    <span class="chapter-ribbon ribbon-ink">The Themes</span>
+    <h2>What the film is <em>about</em>, if one is allowed to say it plainly.</h2>
+    <p>It is about the temptation of clean breaks and how those are, in fact, not available to human beings. It is about the way love contains, from the very first day, the seeds of its own ending — the irritations, the fundamental asymmetries, the little lies you agree not to notice. It is about whether knowing all of that in advance would stop anyone from saying yes anyway.</p>
+    <p>It is also about repetition. Kaufman's great obsession is patterns — the same man falling in love with the same woman, making the same mistakes, arriving at the same impasse, writing about it in the same journal. The Lacuna procedure does not free Joel and Clementine from this pattern. It only lets them do a version of the pattern in which they forget they have done it before.</p>
+    <p>The terrifying argument of the film — delivered not by Joel or Clementine but by the clinic's receptionist, Mary, who discovers in the third act that she herself has been a Lacuna patient, and that she has been sleeping with Dr. Mierzwiak, and that she has slept with him before, been erased, and come back to do it again — is that <em>we are always doing this.</em> Memory loss or no memory loss. The erasure is just a literalisation of what love already does to itself.</p>
+
+    <div class="pullquote">
+      Too many guys think I'm a concept. I'm not a concept.
+    </div>
+
+    <p>And it is about, specifically, the Manic Pixie Dream Girl trap — a term the critic Nathan Rabin coined the year after this movie came out, partly in response to it. Clementine spends an entire scene begging Joel not to use her as a project for his own self-completion. The film agrees with her. Joel's erasure is partly his punishment for having tried.</p>
+  </section>
+
+  <!-- Chapter 7 -->
+  <section>
+    <div class="chapter-num">VII.</div>
+    <span class="chapter-ribbon ribbon-red">The Pope Of It All</span>
+    <h2>Why the title is a quote from a 1717 poem.</h2>
+    <p>The phrase "eternal sunshine of the spotless mind" is not Kaufman's. It comes from Alexander Pope's <em>Eloisa to Abelard</em>, a verse epistle written in the voice of a medieval nun who is trying, and failing, to forget the affair of her youth. Pope's Eloisa envies the women in her convent whose minds have never been disturbed by love — "How happy is the blameless vestal's lot! The world forgetting, by the world forgot."</p>
+    <p>Those lines are recited, in the film, by Mary the receptionist. She does not know, as she says them, that she is describing her own condition — a mind recently wiped and therefore "spotless," able to desire the very man who erased her.</p>
+    <p>Pope's poem is a 300-year-old argument that forgetting a lover is a kind of cheap peace. Kaufman's screenplay updates the argument for the age of outpatient neurosurgery and reaches the same conclusion.</p>
+  </section>
+
+  <!-- Chapter 8 -->
+  <section>
+    <div class="chapter-num">VIII.</div>
+    <span class="chapter-ribbon ribbon-blue">The Ending</span>
+    <h2>The two most important syllables in the film are <em>"Okay. Okay."</em></h2>
+    <p>Mary, in an act of guilt, mails every Lacuna patient their own file — the tapes they recorded before the procedure, the lists of everything they said they hated about the person being erased. Joel's file arrives in his mailbox the morning after Montauk. So does Clementine's. They listen to themselves, on cassette, explaining with precision why the other person is intolerable.</p>
+    <p>Joel's tape plays in Clementine's apartment. She hears the man she has just begun to love catalogue, in his own voice, everything he found unforgivable about her — her teeth, her drinking, her neediness. She runs. He follows. They stand in the hallway of his building, and he says: I don't see anything I don't like about you. And she says: But you will. But you will think of things, and I'll get bored with you, and feel trapped, because that's what happens with me.</p>
+    <p>And then, a silence. And then she says: <em>Okay.</em></p>
+    <p>And he says: <em>Okay.</em></p>
+    <p>That is the ending. It is not "yes, forever." It is not "our love will triumph over all." It is the smallest possible syllable of consent, said twice, by two people who have just been told, in documentary detail, exactly how they are going to fail each other — and who choose to go ahead and do it anyway. It is the single most grown-up ending in any American movie of the 2000s.</p>
+
+    <div class="pullquote">
+      The film's last image is Joel and Clementine,<br>running on the beach at Montauk,<br>again.<br>And again. And again.
+    </div>
+
+    <p>On a second watch, you notice that the shot loops. They run past the camera, the screen glitches, and they are running past again — same angle, same laugh, same falling snow. The relationship is a closed circle. They will meet in Montauk. They will fall in love. They will destroy it. They will pay a clinic to forget it. And they will meet in Montauk.</p>
+    <p>The film is called <em>Eternal Sunshine of the Spotless Mind</em>. The title is ironic. There is no spotless mind in this film, and there is no sunshine either — it is February on a Long Island beach and everybody is wearing a coat. What there is, instead, is a very small and very stubborn human decision, made by two unremarkable people, to love each other anyway, knowing everything.</p>
+    <p class="handwriting" style="font-size: 1.8rem; color: var(--red-menace); text-align: center; margin-top: 3rem;">okay.</p>
+  </section>
+
+</article>
+
+<footer class="filmstrip">
+  End of File · Proceed to Quotes or Hair
+  <div class="signature">return to the beach.</div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,216 @@
+/* ==========================================================================
+   ETERNAL SUNSHINE — shared stylesheet
+   A memory scrapbook for Gondry & Kaufman's 2004 film.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Instrument+Serif:ital@0;1&family=Caveat:wght@400..700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  /* Clementine's hair — in story order */
+  --green-revolution: #4d7a3a;
+  --red-menace: #c73e1d;
+  --agent-orange: #e87722;
+  --blessed-blue: #2b6cb0;
+
+  /* Paper & ink */
+  --paper: #f4ede0;
+  --paper-shadow: #e8dfd0;
+  --ink: #1a1e2e;
+  --ink-soft: #4a4e5e;
+  --ink-whisper: #8a8e9e;
+
+  /* Accents */
+  --montauk-fog: #d4cfc3;
+  --lacuna-tape: #fff8e0;
+
+  --grain-opacity: 0.5;
+}
+
+/* -------- Reset & base -------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 14;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.6;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* -------- Paper grain overlay -------- */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+/* subtle crease on paper */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 99;
+  background:
+    radial-gradient(ellipse at top left, transparent 60%, rgba(0,0,0,0.04) 100%),
+    radial-gradient(ellipse at bottom right, transparent 60%, rgba(0,0,0,0.05) 100%);
+}
+
+/* -------- Navigation -------- */
+nav.lacuna-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--paper);
+  border-bottom: 1px solid var(--ink);
+  padding: 0.9rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-brand {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 1.35rem;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  text-decoration: none;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.nav-brand .ampersand { color: var(--red-menace); font-weight: 400; }
+.nav-brand .stamp {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border: 1px solid var(--ink);
+  padding: 2px 6px;
+  margin-left: 0.75rem;
+  transform: rotate(-2deg);
+}
+
+.nav-links {
+  display: flex;
+  gap: 0.3rem;
+  list-style: none;
+  align-items: center;
+}
+.nav-links a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  padding: 0.5rem 0.9rem;
+  position: relative;
+  transition: color 0.3s;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0.9rem;
+  right: 0.9rem;
+  bottom: 0.3rem;
+  height: 2px;
+  background: var(--blessed-blue);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.7, 0, 0.3, 1);
+}
+.nav-links a:hover::after,
+.nav-links a.active::after { transform: scaleX(1); }
+.nav-links a.active { color: var(--red-menace); }
+
+/* -------- Shared type -------- */
+h1, h2, h3, h4 {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 144, 'SOFT' 30;
+  font-weight: 400;
+  line-height: 1.02;
+  color: var(--ink);
+}
+h1 { font-size: clamp(3rem, 9vw, 8.5rem); letter-spacing: -0.03em; }
+h2 { font-size: clamp(2rem, 5vw, 3.8rem); letter-spacing: -0.02em; }
+h3 { font-size: clamp(1.3rem, 2.5vw, 2rem); letter-spacing: -0.01em; font-style: italic; font-family: 'Instrument Serif', serif; font-weight: 400; }
+
+.handwriting {
+  font-family: 'Caveat', cursive;
+  font-weight: 500;
+}
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* -------- Utility -------- */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+.narrow {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* -------- Footer -------- */
+footer.filmstrip {
+  margin-top: 8rem;
+  border-top: 1px dashed var(--ink);
+  padding: 3rem 2rem 2rem;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  position: relative;
+}
+footer.filmstrip::before {
+  content: '○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○';
+  display: block;
+  font-size: 0.5rem;
+  letter-spacing: 0.8em;
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  white-space: nowrap;
+}
+footer .signature { margin-top: 0.8rem; font-family: 'Caveat', cursive; text-transform: none; letter-spacing: 0; font-size: 1rem; color: var(--ink); }
+
+/* -------- Memory glitch (hover) -------- */
+@keyframes erase {
+  0%, 100% { opacity: 1; filter: blur(0); }
+  20% { opacity: 0.7; filter: blur(1px); transform: translateX(-2px); }
+  40% { opacity: 0.4; filter: blur(2px); transform: translateX(3px); }
+  60% { opacity: 0.8; filter: blur(0.5px); transform: translateX(-1px); }
+}
+.erase-on-hover:hover { animation: erase 0.6s ease; }
+
+/* -------- Responsive -------- */
+@media (max-width: 760px) {
+  nav.lacuna-nav { padding: 0.8rem 1rem; flex-wrap: wrap; gap: 0.8rem; }
+  .nav-brand { font-size: 1.1rem; }
+  .nav-brand .stamp { display: none; }
+  .nav-links { gap: 0; flex-wrap: wrap; }
+  .nav-links a { padding: 0.4rem 0.5rem; font-size: 0.65rem; }
+  .container, .narrow { padding: 0 1.2rem; }
+}

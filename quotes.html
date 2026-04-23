@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quotes — Eternal Sunshine of the Spotless Mind</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+/* quotes page */
+.quotes-hero {
+  padding: 5rem 2rem 2rem;
+  max-width: 1080px;
+  margin: 0 auto;
+  text-align: center;
+}
+.quotes-kicker {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--red-menace);
+  margin-bottom: 1.8rem;
+}
+.quotes-title {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 144, 'SOFT' 30;
+  font-weight: 400;
+  font-size: clamp(2.5rem, 8vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+.quotes-title em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--red-menace);
+}
+.quotes-deck {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: clamp(1rem, 1.8vw, 1.35rem);
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+/* filter pills */
+.speaker-filter {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 3rem auto 3rem;
+  flex-wrap: wrap;
+  padding: 0 2rem;
+}
+.speaker-filter button {
+  background: transparent;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  padding: 0.5rem 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.7,0,0.3,1);
+  border-radius: 2px;
+}
+.speaker-filter button:hover { background: var(--ink); color: var(--paper); }
+.speaker-filter button.is-active { background: var(--red-menace); border-color: var(--red-menace); color: var(--paper); }
+
+/* Quote board */
+.quote-board {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem 2rem;
+  column-count: 3;
+  column-gap: 1.8rem;
+}
+@media (max-width: 960px) { .quote-board { column-count: 2; } }
+@media (max-width: 600px) { .quote-board { column-count: 1; } }
+
+.quote-card {
+  break-inside: avoid;
+  margin-bottom: 1.8rem;
+  padding: 1.8rem 1.6rem 1.3rem;
+  position: relative;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  box-shadow: 4px 4px 0 rgba(26,30,46,0.08);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
+  display: inline-block;
+  width: 100%;
+}
+.quote-card:nth-child(4n+1) { transform: rotate(-1deg); background: var(--paper); }
+.quote-card:nth-child(4n+2) { transform: rotate(1deg); background: var(--lacuna-tape); }
+.quote-card:nth-child(4n+3) { transform: rotate(-0.5deg); background: var(--paper); }
+.quote-card:nth-child(4n+4) { transform: rotate(0.8deg); background: var(--lacuna-tape); }
+
+.quote-card:hover {
+  transform: rotate(0) scale(1.02);
+  box-shadow: 8px 8px 0 rgba(26,30,46,0.12);
+  z-index: 2;
+}
+
+.quote-card.is-hidden { display: none; }
+
+/* little pin */
+.quote-pin {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--red-menace);
+  box-shadow: 0 2px 3px rgba(0,0,0,0.25), inset 2px 2px 2px rgba(255,255,255,0.4);
+}
+.quote-card:nth-child(3n+1) .quote-pin { background: var(--blessed-blue); }
+.quote-card:nth-child(3n+2) .quote-pin { background: var(--agent-orange); }
+.quote-card:nth-child(3n+3) .quote-pin { background: var(--green-revolution); }
+
+/* Quote typography */
+.quote-card .q {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 60;
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  color: var(--ink);
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+}
+.quote-card.is-huge .q {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 1.8rem;
+  line-height: 1.15;
+}
+.quote-card.is-handwritten .q {
+  font-family: 'Caveat', cursive;
+  font-weight: 500;
+  font-size: 1.9rem;
+  line-height: 1.2;
+  color: var(--red-menace);
+}
+
+.quote-card .q::before { content: '"'; color: var(--red-menace); font-family: 'Instrument Serif', serif; font-style: italic; font-size: 1.5em; line-height: 0; position: relative; top: 0.15em; margin-right: 0.05em; }
+.quote-card .q::after { content: '"'; color: var(--red-menace); font-family: 'Instrument Serif', serif; font-style: italic; font-size: 1.5em; line-height: 0; position: relative; top: 0.25em; margin-left: 0.05em; }
+.quote-card.is-handwritten .q::before,
+.quote-card.is-handwritten .q::after { display: none; }
+
+.quote-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px dashed var(--ink-whisper);
+}
+.quote-speaker {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--ink);
+}
+.quote-speaker strong {
+  font-style: normal;
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  color: var(--ink);
+  display: block;
+  font-size: 0.95rem;
+}
+.quote-speaker span {
+  font-family: 'JetBrains Mono', monospace;
+  font-style: normal;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-whisper);
+  display: block;
+  margin-top: 0.2rem;
+}
+.quote-context {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-whisper);
+  text-align: right;
+  max-width: 50%;
+  line-height: 1.5;
+}
+
+/* sentinel note */
+.board-note {
+  text-align: center;
+  font-family: 'Caveat', cursive;
+  font-size: 1.6rem;
+  color: var(--red-menace);
+  margin: 2rem auto 1rem;
+  transform: rotate(-1.5deg);
+  display: block;
+}
+
+/* empty state */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--ink-whisper);
+  display: none;
+}
+.empty-state.show { display: block; }
+</style>
+</head>
+<body>
+
+<nav class="lacuna-nav">
+  <a href="index.html" class="nav-brand">
+    Lacuna<span class="ampersand">,</span> Inc.
+    <span class="stamp">Case №. 10481</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="decoded.html">Decoded</a></li>
+    <li><a href="quotes.html" class="active">Quotes</a></li>
+    <li><a href="hair.html">Hair</a></li>
+  </ul>
+</nav>
+
+<header class="quotes-hero">
+  <div class="quotes-kicker">Folder 02 · The Lines That Survived</div>
+  <h1 class="quotes-title">Things they<br><em>said</em> before<br>they forgot.</h1>
+  <p class="quotes-deck">A pinboard of the most-tattooed, most-whispered, most-remembered lines from the film — plus the two that mean the most and are the shortest.</p>
+</header>
+
+<div class="speaker-filter" id="filter">
+  <button class="is-active" data-speaker="all">All</button>
+  <button data-speaker="clementine">Clementine</button>
+  <button data-speaker="joel">Joel</button>
+  <button data-speaker="mary">Mary</button>
+  <button data-speaker="other">Other</button>
+</div>
+
+<span class="board-note handwriting">— pinned, torn, kept —</span>
+
+<div class="quote-board" id="board">
+
+  <!-- Clementine / iconic -->
+  <article class="quote-card is-handwritten" data-speaker="clementine">
+    <span class="quote-pin"></span>
+    <p class="q">Meet me in Montauk.</p>
+    <div class="quote-meta">
+      <div class="quote-speaker"><strong>Clementine Kruczynski</strong><span>Whispered to Joel, mid-erasure</span></div>
+      <div class="quote-context">The instruction that survives<br>the procedure.</div>
+    </div>
+  </article>
+
+  <!-- Clementine concept -->
+  <article class="quote-card is-huge" data-speaker="clementine">
+    <span class="quote-pin"></span>
+    <p class="q">Too many guys think I'm a concept, or I complete them, or I'm gonna make them alive. But I'm just a fucked-up girl who's looking for my own peace of mind. Don't assign me yours.</p>
+    <div class="quote-meta">
+      <div class="quote-speaker"><strong>Clementine</strong><span>To Joel, on the train from Montauk</span></div>
+      <div class="quote-context">The anti-MPDG<br>thesis statement.</div>
+    </div>
+  </article>
+
+  <!-- Joel: I could die -->
+  <article class="quote-card is-huge" data-speaker="joel">
+    <span class="quote-pin"></span>
+    <p class="q">I could die right now, Clem. I'm just… happy. I've never felt that before. I'm just exactly where I want to be.</p>
+    <div class="quote-meta">
+      <div class="quote-speaker"><strong>Joel Barish</strong><span>On the frozen Charles River</span></div>
+      <div class="quote-context">The memory Joel<br>tries hardest to save.</div>
+    </div>
+  </article>
+
+  <!-- Mary Pope -->
+  <article class="quote-card" data-speaker="mary">
+    <span class="quote-pin"></span>
+    <p class="q">How happy is the blameless vestal's lot! The world forgetting, by the world forgot. Eternal sunshine of the spotless mind!</p>
+    <div class="quote-meta">
+      <div class="quote-speaker"><strong>Mary Svevo</strong><span>Reciting Alexander Pope</span></div>
+      <div class="quote-context">The source of the<br>film's title. 1717.</div>
+    </div>
+  </article>
+
+  <!-- Joel: can't see anything -->
+  <article class="quote-card" data-speaker="joel">
+    <span class="quote-pin"></span>
+    <p class="q">I don't see anything I don't like about you.</p>
+    <div class="quote-meta">
+      <div class="quote-speaker"><strong>Joel</strong><span>Hallway, final scene</span></div>
+      <div class="quote-context">The line Clementine<br>immediately disbelieves.</div>
+    </div>
+  </article>
+
+  <!-- Clementine: but you will -->
+  <article class="quote-card is-huge" data-speaker="clementine">
+    <span class="quote-pin"></span>
+    <p class="q">But you will. But you will. You know, you will think of things. And I'll get bored with you and feel trapped because that's what happens with me.</p>
+    <div class="quote-meta">
+      <div class="quote-speaker"><strong>Clementine</strong><span>Hallway, final scene</span></div>
+      <div class="quote-context">The documentary-detail<br>warning.</div>
+    </div>
+  </article>
+
+  <!-- OKAY OKAY -->
+  <article class="quote-card is-handwritten" data-speaker="joel">
+    <span class="quote-pin"></span>
+    <p class="q">Okay. / Okay.</p>
+    <div class="quote-meta">
+      <div class="quote-speaker"><strong>Joel &amp; Clementine</strong><span>Final two syllables</span></div>
+      <div class="quote-context">The grown-up ending<br>of the whole movie.</div>
+    </div>
+  </article>
+
+  <!-- Nietzsche -->
+  <article class="quote-card" data-speaker="mary">
+    <span class="quote-pin"></span>
+    <p class="q">Blessed are the forgetful, for they get the better even of their blunders.</p>
+    <div class="quote-meta">
+      <div class="quote-speaker"><strong>Mary</strong><span>Reciting Nietzsche</span></div>
+      <div class="quote-context">Lacuna's unofficial<br>in-house motto.</div>
+    </div>
+  </article>
+
+  <!-- Joel: Why do I -->
+  <article class="quote-card" data-speaker="joel">
+    <span class="quote-pin"></span>
+    <p class="q">Why do I fall in love with every woman I see who shows me the least bit of attention?</p>
+    <div class="quote-meta">
+      <div class="quote-speaker"><strong>Joel</strong><span>To himself, Montauk train</span></div>
+      <div class="quote-context">The voiceover that<br>opens the film.</div>
+    </div>
+  </article>
+
+  <!-- dining dead -->
+  <article class="quote-card is-huge" data-speaker="clementine">
+    <span class="quote-pin"></span>
+    <p class="q">Are we like those poor couples you feel sorry for in restaurants? Are we the dining dead?</p>
+    <div class="quote-meta">
+      <div class="quote-speaker"><strong>Clementine</strong><span>Restaurant, later-relationship</span></div>
+      <div class="quote-context">The beginning<br>of the end.</div>
+    </div>
+  </article>
+
+  <!-- Joel: constantly talking -->
+  <article class="quote-card" data-speaker="joel">
+    <span class="quote-pin"></span>
+    <p class="q">Constantly talking isn't necessarily communicating.</p>
+    <div class="quote-meta">
+      <div class="quote-speaker"><strong>Joel</strong><span>Journal entry</span></div>
+      <div class="quote-context">The observation<br>that dooms them.</div>
+    </div>
+  </article>
+
+  <!-- Clem: I'm impulsive -->
+  <article class="quote-card" data-speaker="clementine">
+    <span class="quote-pin"></span>
+    <p class="q">I'm a vindictive little bitch, truth be told.</p>
+    <div class="quote-meta">
+      <div class="quote-speaker"><strong>Clementine</strong><span>First train ride</span></div>
+      <div class="quote-context">The warning label<br>she hands him herself.</div>
+    </div>
+  </article>
+
+  <!-- Random thoughts -->
+  <article class="quote-card is-huge" data-speaker="joel">
+    <span class="quote-pin"></span>
+    <p class="q">Random thoughts for Valentine's Day, 2004: Today is a holiday invented by greeting-card companies to make people feel like crap.</p>
+    <div class="quote-meta">
+      <div class="quote-speaker"><strong>Joel</strong><span>Journal, opening voiceover</span></div>
+      <div class="quote-context">The first thing<br>you hear in the film.</div>
+    </div>
+  </article>
+
+  <!-- Mary: adults -->
+  <article class="quote-card" data-speaker="mary">
+    <span class="quote-pin"></span>
+    <p class="q">Adults are, like, this mess of sadness and phobias.</p>
+    <div class="quote-meta">
+      <div class="quote-speaker"><strong>Mary</strong><span>Rooftop, stoned, with Stan</span></div>
+      <div class="quote-context">Dunst's reading<br>is perfect.</div>
+    </div>
+  </article>
+
+  <!-- Remember me -->
+  <article class="quote-card is-handwritten" data-speaker="clementine">
+    <span class="quote-pin"></span>
+    <p class="q">Remember me. Try your best.</p>
+    <div class="quote-meta">
+      <div class="quote-speaker"><strong>Clementine</strong><span>A memory being erased</span></div>
+      <div class="quote-context">The last thing she says<br>before she disappears.</div>
+    </div>
+  </article>
+
+  <!-- Enjoy it -->
+  <article class="quote-card" data-speaker="joel">
+    <span class="quote-pin"></span>
+    <p class="q">— What do we do? <br>— Enjoy it.</p>
+    <div class="quote-meta">
+      <div class="quote-speaker"><strong>Clementine → Joel</strong><span>The collapsing beach house</span></div>
+      <div class="quote-context">As the walls<br>literally fall.</div>
+    </div>
+  </article>
+
+  <!-- Howard / Patrick's sin -->
+  <article class="quote-card" data-speaker="other">
+    <span class="quote-pin"></span>
+    <p class="q">This is it, Joel. It's going to be gone soon.</p>
+    <div class="quote-meta">
+      <div class="quote-speaker"><strong>Clementine</strong><span>In Joel's last memory of her</span></div>
+      <div class="quote-context">Spoken inside a memory<br>that knows it's dying.</div>
+    </div>
+  </article>
+
+  <!-- Howard -->
+  <article class="quote-card" data-speaker="other">
+    <span class="quote-pin"></span>
+    <p class="q">Technically speaking, the operation is brain damage. But it's on par with a heavy night of drinking. Nothing you'll miss.</p>
+    <div class="quote-meta">
+      <div class="quote-speaker"><strong>Dr. Howard Mierzwiak</strong><span>Selling the procedure</span></div>
+      <div class="quote-context">Lacuna's bedside<br>manner, exactly.</div>
+    </div>
+  </article>
+
+</div>
+
+<p class="empty-state" id="empty">No fragments match that speaker. Try another.</p>
+
+<footer class="filmstrip">
+  20 lines saved from the procedure
+  <div class="signature">try your best.</div>
+</footer>
+
+<script>
+  // filter by speaker
+  const buttons = document.querySelectorAll('.speaker-filter button');
+  const cards = document.querySelectorAll('.quote-card');
+  const empty = document.getElementById('empty');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      const speaker = btn.dataset.speaker;
+      let visible = 0;
+      cards.forEach(c => {
+        const match = speaker === 'all' || c.dataset.speaker === speaker;
+        c.classList.toggle('is-hidden', !match);
+        if (match) visible++;
+      });
+      empty.classList.toggle('show', visible === 0);
+    });
+  });
+</script>
+
+</body>
+</html>

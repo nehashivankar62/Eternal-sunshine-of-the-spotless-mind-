@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hair — Eternal Sunshine of the Spotless Mind</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+/* hair page */
+.hair-hero {
+  padding: 5rem 2rem 3rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+}
+.hair-kicker {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--red-menace);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.hair-kicker::before, .hair-kicker::after {
+  content: '';
+  height: 1px;
+  background: var(--red-menace);
+  flex: 0 0 30px;
+}
+.hair-title {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 144, 'SOFT' 30;
+  font-weight: 400;
+  font-size: clamp(3rem, 10vw, 9rem);
+  line-height: 0.9;
+  letter-spacing: -0.035em;
+  margin-bottom: 1.5rem;
+}
+.hair-title .swatch-text {
+  background: linear-gradient(90deg,
+    var(--green-revolution) 0%, var(--green-revolution) 25%,
+    var(--red-menace) 25%, var(--red-menace) 50%,
+    var(--agent-orange) 50%, var(--agent-orange) 75%,
+    var(--blessed-blue) 75%, var(--blessed-blue) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: 400;
+}
+.hair-deck {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 640px;
+  margin-bottom: 3rem;
+}
+
+/* Color nav */
+.color-nav {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 3rem;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  padding: 1rem 0;
+  flex-wrap: wrap;
+}
+.color-nav a {
+  flex: 1;
+  min-width: 150px;
+  padding: 0.6rem 0.8rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--paper);
+  text-decoration: none;
+  position: relative;
+  text-align: center;
+  transition: transform 0.3s;
+}
+.color-nav a:hover { transform: translateY(-2px); }
+.color-nav a .phase-num {
+  display: block;
+  font-size: 0.55rem;
+  opacity: 0.7;
+  margin-bottom: 0.2rem;
+  letter-spacing: 0.25em;
+}
+
+/* ---- Main hair sections (full-width color bands) ---- */
+.hair-section {
+  position: relative;
+  padding: 6rem 0;
+  overflow: hidden;
+}
+.hair-section .inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 4rem;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+@media (max-width: 900px) { .hair-section .inner { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+.hair-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+  opacity: 0.75;
+}
+.hair-name {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 144, 'SOFT' 30;
+  font-weight: 400;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  margin-bottom: 1rem;
+}
+.hair-name em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+}
+.hair-phase {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 1.4rem;
+  line-height: 1.4;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+.hair-body {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 14;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+}
+
+.hair-specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid currentColor;
+  opacity: 0.95;
+}
+.spec {
+  font-family: 'JetBrains Mono', monospace;
+}
+.spec-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-bottom: 0.3rem;
+}
+.spec-value {
+  font-size: 0.92rem;
+  letter-spacing: 0.05em;
+}
+
+/* Large color swatch panel */
+.swatch-panel {
+  aspect-ratio: 4/5;
+  border: 2px solid currentColor;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.hair-section:hover .swatch-panel { transform: rotate(-1deg); }
+
+.swatch-panel .big-number {
+  position: absolute;
+  top: 1rem;
+  left: 1.2rem;
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 10rem;
+  line-height: 0.8;
+  opacity: 0.18;
+}
+.swatch-panel .hex {
+  position: absolute;
+  bottom: 1rem;
+  right: 1.2rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  opacity: 0.9;
+}
+.swatch-panel .film-stock {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  text-align: right;
+}
+.swatch-panel .color-label {
+  position: absolute;
+  bottom: 1rem;
+  left: 1.2rem;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1.5rem;
+  line-height: 1;
+  opacity: 0.95;
+}
+
+/* color-specific */
+.sec-green { background: var(--green-revolution); color: #f4ede0; }
+.sec-red { background: var(--red-menace); color: #f4ede0; }
+.sec-orange { background: var(--agent-orange); color: #1a1e2e; }
+.sec-blue { background: var(--blessed-blue); color: #f4ede0; }
+
+.sec-green .color-nav-dot { background: var(--green-revolution); }
+.sec-red .color-nav-dot { background: var(--red-menace); }
+.sec-orange .color-nav-dot { background: var(--agent-orange); }
+.sec-blue .color-nav-dot { background: var(--blessed-blue); }
+
+/* hair strand svg decoration */
+.hair-section .strand {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.15;
+}
+.strand-1 { top: 10%; right: -5%; width: 400px; transform: rotate(15deg); }
+.strand-2 { bottom: -10%; left: -5%; width: 380px; transform: rotate(-20deg); }
+
+/* scenes list */
+.scenes-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 0.5rem;
+}
+.scenes-list li {
+  padding: 0.7rem 0;
+  border-bottom: 1px dashed currentColor;
+  font-family: 'Fraunces', serif;
+  font-size: 0.98rem;
+  line-height: 1.45;
+  opacity: 0.88;
+}
+.scenes-list li::before {
+  content: '→';
+  font-family: 'Instrument Serif', serif;
+  margin-right: 0.7rem;
+  opacity: 0.6;
+}
+
+/* timeline strip intro */
+.timeline-intro {
+  background: var(--paper);
+  padding: 4rem 2rem;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  text-align: center;
+}
+.timeline-intro h2 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.6rem;
+}
+.timeline-intro h2 em { font-family: 'Instrument Serif', serif; color: var(--red-menace); }
+.timeline-intro p {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  color: var(--ink-soft);
+  max-width: 640px;
+  margin: 0 auto;
+  font-size: 1.15rem;
+}
+.timeline-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 2.5rem;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid var(--ink);
+}
+.timeline-strip .swatch {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1rem;
+  color: var(--paper);
+  position: relative;
+}
+.timeline-strip .swatch span.n {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.8rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  opacity: 0.8;
+}
+.timeline-strip .swatch span.nm {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  line-height: 1.1;
+}
+.timeline-strip .g { background: var(--green-revolution); }
+.timeline-strip .r { background: var(--red-menace); }
+.timeline-strip .o { background: var(--agent-orange); color: var(--ink); }
+.timeline-strip .b { background: var(--blessed-blue); }
+
+/* final note */
+.final-note {
+  padding: 5rem 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+.final-note p {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  line-height: 1.5;
+  color: var(--ink);
+}
+.final-note p em {
+  background: linear-gradient(180deg, transparent 60%, var(--agent-orange) 60%);
+  font-style: normal;
+  font-family: inherit;
+  padding: 0 0.2em;
+}
+
+@media (max-width: 900px) {
+  .swatch-panel .big-number { font-size: 7rem; }
+}
+</style>
+</head>
+<body>
+
+<nav class="lacuna-nav">
+  <a href="index.html" class="nav-brand">
+    Lacuna<span class="ampersand">,</span> Inc.
+    <span class="stamp">Case №. 10481</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="decoded.html">Decoded</a></li>
+    <li><a href="quotes.html">Quotes</a></li>
+    <li><a href="hair.html" class="active">Hair</a></li>
+  </ul>
+</nav>
+
+<header class="hair-hero">
+  <div class="hair-kicker">Folder 03 · A Calendar in Four Dyes</div>
+  <h1 class="hair-title">Clementine's<br><span class="swatch-text">hair</span> is a<br>timeline.</h1>
+  <p class="hair-deck">
+    Clementine Kruczynski dyes her hair on impulse, and because this is a film that moves backwards, her hair becomes the only reliable way to tell where in the relationship you are. Four colors. Four phases. One love affair.
+  </p>
+
+  <div class="color-nav">
+    <a href="#green" style="background: var(--green-revolution);"><span class="phase-num">Phase 01</span>Green Revolution</a>
+    <a href="#red" style="background: var(--red-menace);"><span class="phase-num">Phase 02</span>Red Menace</a>
+    <a href="#orange" style="background: var(--agent-orange); color: var(--ink);"><span class="phase-num">Phase 03</span>Agent Orange</a>
+    <a href="#blue" style="background: var(--blessed-blue);"><span class="phase-num">Phase 04</span>Blessed Blue</a>
+  </div>
+</header>
+
+<div class="timeline-intro">
+  <h2>Read the timeline <em>forwards.</em></h2>
+  <p>In the film, Clementine's hair gets younger as the movie plays — we meet blue first, then orange, then red, then green. Chronologically, though, their relationship begins in green and ends in orange. Blue is the second first time.</p>
+  <div class="timeline-strip">
+    <div class="swatch g"><span class="n">01</span><span class="nm">Green<br>Revolution</span></div>
+    <div class="swatch r"><span class="n">02</span><span class="nm">Red<br>Menace</span></div>
+    <div class="swatch o"><span class="n">03</span><span class="nm">Agent<br>Orange</span></div>
+    <div class="swatch b"><span class="n">04</span><span class="nm">Blessed<br>Blue</span></div>
+  </div>
+</div>
+
+<!-- GREEN -->
+<section class="hair-section sec-green" id="green">
+  <svg class="strand strand-1" viewBox="0 0 400 500" aria-hidden="true">
+    <path d="M 50 10 Q 120 60, 80 130 T 140 260 T 90 390 T 160 490" stroke="#f4ede0" stroke-width="3" fill="none"/>
+    <path d="M 100 10 Q 170 70, 130 140 T 190 270 T 140 400 T 210 490" stroke="#f4ede0" stroke-width="2" fill="none"/>
+  </svg>
+  <div class="inner">
+    <div>
+      <div class="hair-meta">Phase 01 · The Beginning</div>
+      <h2 class="hair-name"><em>Green</em><br>Revolution</h2>
+      <p class="hair-phase">The dye Clementine is wearing when Joel, in his own story, <em>actually</em> meets her for the first time.</p>
+      <p class="hair-body">
+        A beach party on Long Island. A friend of a friend. She has deep, almost emerald-green hair and a half-finished drink and she sits down next to him because she has decided he is interesting. This is the memory Joel goes looking for during the erasure — the one before the one before the one. The sweetest, and therefore the last to be deleted, and therefore the hardest to let go of.
+      </p>
+      <p class="hair-body">
+        Green is the color of their beginning. It is also the color a person dyes their hair when they want to seem reckless but are secretly very careful — a shade that says I am not a person who will be mistaken for anyone normal.
+      </p>
+      <ul class="scenes-list">
+        <li>First meeting, on the beach</li>
+        <li>The joke about her name</li>
+        <li>Driving to the frozen Charles River</li>
+      </ul>
+      <div class="hair-specs">
+        <div class="spec"><div class="spec-label">Hex</div><div class="spec-value">#4D7A3A</div></div>
+        <div class="spec"><div class="spec-label">Mood</div><div class="spec-value">Tentative / Curious</div></div>
+      </div>
+    </div>
+    <div class="swatch-panel">
+      <span class="big-number">01</span>
+      <span class="film-stock">Take 01<br>Scene 14A<br>Emerald bleach</span>
+      <span class="color-label">Green Revolution</span>
+      <span class="hex">#4D7A3A</span>
+    </div>
+  </div>
+</section>
+
+<!-- RED -->
+<section class="hair-section sec-red" id="red">
+  <svg class="strand strand-2" viewBox="0 0 400 500" aria-hidden="true">
+    <path d="M 50 10 Q 120 60, 80 130 T 140 260 T 90 390 T 160 490" stroke="#f4ede0" stroke-width="3" fill="none"/>
+    <path d="M 100 10 Q 170 70, 130 140 T 190 270 T 140 400 T 210 490" stroke="#f4ede0" stroke-width="2" fill="none"/>
+  </svg>
+  <div class="inner">
+    <div class="swatch-panel">
+      <span class="big-number">02</span>
+      <span class="film-stock">Take 02<br>Scene 48D<br>Auburn boost</span>
+      <span class="color-label">Red Menace</span>
+      <span class="hex">#C73E1D</span>
+    </div>
+    <div>
+      <div class="hair-meta">Phase 02 · The Honeymoon</div>
+      <h2 class="hair-name"><em>Red</em><br>Menace</h2>
+      <p class="hair-phase">The happy middle. The shade she's wearing on the frozen river under the stars — and on the kitchen floor making pasta at 1 a.m.</p>
+      <p class="hair-body">
+        Red is the phase in which Joel says the words <em>I could die right now, Clem. I'm just… happy.</em> It is also the phase in which he fails to say that he means it. Every couple gets a red-hair phase. It lasts, on average, four to eleven months.
+      </p>
+      <p class="hair-body">
+        The naming is Clementine's own: she catalogues her dye jobs by what she's reacting to when she does them. Red Menace is what comes after Green Revolution, when she is no longer introducing herself to someone and is instead announcing, to her friends, that she is in love.
+      </p>
+      <ul class="scenes-list">
+        <li>The ice-skating scene on the Charles</li>
+        <li>Joel's face in the kitchen, lit from below</li>
+        <li>The first "I love you"</li>
+      </ul>
+      <div class="hair-specs">
+        <div class="spec"><div class="spec-label">Hex</div><div class="spec-value">#C73E1D</div></div>
+        <div class="spec"><div class="spec-label">Mood</div><div class="spec-value">Giddy / Declarative</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORANGE -->
+<section class="hair-section sec-orange" id="orange">
+  <svg class="strand strand-1" viewBox="0 0 400 500" aria-hidden="true">
+    <path d="M 50 10 Q 120 60, 80 130 T 140 260 T 90 390 T 160 490" stroke="#1a1e2e" stroke-width="3" fill="none"/>
+    <path d="M 100 10 Q 170 70, 130 140 T 190 270 T 140 400 T 210 490" stroke="#1a1e2e" stroke-width="2" fill="none"/>
+  </svg>
+  <div class="inner">
+    <div>
+      <div class="hair-meta">Phase 03 · The Unravelling</div>
+      <h2 class="hair-name"><em>Agent</em><br>Orange</h2>
+      <p class="hair-phase">The color of disappointment. The color of a fight in a Chinese restaurant that neither of them started.</p>
+      <p class="hair-body">
+        Agent Orange is the phase where Clementine asks, across a basket of dumplings, whether they have become "the dining dead." It is the phase where Joel stops writing in his journal. It is the phase where she gets home drunk at 3 a.m. and he pretends to be asleep. It is the phase that ends, more or less, when she walks into Lacuna, Inc. and says she would like to pay them to make all of this stop.
+      </p>
+      <p class="hair-body">
+        Orange is on her head during every single fight we are shown. This is not an accident. The dye job is itself an act of hostility: she changes her hair because she knows he didn't like the red.
+      </p>
+      <ul class="scenes-list">
+        <li>The restaurant "dining dead" scene</li>
+        <li>The apartment fight about the car</li>
+        <li>The night before she books the procedure</li>
+      </ul>
+      <div class="hair-specs">
+        <div class="spec"><div class="spec-label">Hex</div><div class="spec-value">#E87722</div></div>
+        <div class="spec"><div class="spec-label">Mood</div><div class="spec-value">Bruised / Spiteful</div></div>
+      </div>
+    </div>
+    <div class="swatch-panel">
+      <span class="big-number">03</span>
+      <span class="film-stock">Take 03<br>Scene 73B<br>Tangerine strip</span>
+      <span class="color-label">Agent Orange</span>
+      <span class="hex">#E87722</span>
+    </div>
+  </div>
+</section>
+
+<!-- BLUE -->
+<section class="hair-section sec-blue" id="blue">
+  <svg class="strand strand-2" viewBox="0 0 400 500" aria-hidden="true">
+    <path d="M 50 10 Q 120 60, 80 130 T 140 260 T 90 390 T 160 490" stroke="#f4ede0" stroke-width="3" fill="none"/>
+    <path d="M 100 10 Q 170 70, 130 140 T 190 270 T 140 400 T 210 490" stroke="#f4ede0" stroke-width="2" fill="none"/>
+  </svg>
+  <div class="inner">
+    <div class="swatch-panel">
+      <span class="big-number">04</span>
+      <span class="film-stock">Take 04<br>Scene 01<br>Electric — post-op</span>
+      <span class="color-label">Blessed Blue</span>
+      <span class="hex">#2B6CB0</span>
+    </div>
+    <div>
+      <div class="hair-meta">Phase 04 · The Second Beginning</div>
+      <h2 class="hair-name"><em>Blessed</em><br>Blue</h2>
+      <p class="hair-phase">The shade she is wearing the morning she walks back into Joel's life without knowing she has ever been there before.</p>
+      <p class="hair-body">
+        Blue is the color of the Lacuna era. She dyes her hair in the days immediately after the procedure, because she has the vague sense — where does it come from? — that she has just done something new. She takes the train to Montauk because she has the vague sense she is supposed to. She has an orange hoodie on. The hoodie is the last surviving trace of the last phase.
+      </p>
+      <p class="hair-body">
+        Blessed Blue is the color on her head for the entire opening act of the film — the parts that play as a meet-cute and are actually, tragically, a meet-again. It is also the color she is wearing at the end, when she stands in Joel's hallway and listens to a cassette of him calling her small and insecure, and decides, despite everything, to say <em>okay.</em>
+      </p>
+      <ul class="scenes-list">
+        <li>The Montauk beach, opening</li>
+        <li>The Barnes &amp; Noble scene</li>
+        <li>The hallway, the cassette, the "okay"</li>
+      </ul>
+      <div class="hair-specs">
+        <div class="spec"><div class="spec-label">Hex</div><div class="spec-value">#2B6CB0</div></div>
+        <div class="spec"><div class="spec-label">Mood</div><div class="spec-value">Fresh / Unsuspecting</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="final-note">
+  <p>
+    The colors loop. Green, red, orange, blue — and then, eventually, green again. Clementine has dyed her hair this way before she met Joel and she will dye it this way after she forgets him. The film's final shot — the two of them running on the beach at Montauk, <em>over and over</em> — is, if you look, always a woman with blue hair. The cycle is starting. It has already started. It will start again.
+  </p>
+</div>
+
+<footer class="filmstrip">
+  End of archive · return to <a href="index.html" style="color: var(--ink); text-decoration: underline;">folder menu</a>
+  <div class="signature">blessed are the forgetful.</div>
+</footer>
+
+</body>
+</html>
